@@ -31,13 +31,13 @@ We notice that `test-lib` classes are  showing up in the `application` artifact,
 
 This is a confusing result, as [the `compile`-scoped transitive dependencies of a `test`-scoped dependency should also be included with a scope of `test`](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#dependency-scope).
 
-Further, if we investigate the [`application`](application/pom.xml) and [`application-test`](application-test/pom.xml) poms we find no problems:
- * the dependency in `application` on `application-test` has scope `test`
- * the dependency in `application-test` on `test-lib` has scope `compile`.
+Further, if we investigate the `application` and `application-test` poms we find no problems:
+ * [the dependency in `application` on `application-test` has scope `test`](application/pom.xml#L18)
+ * [the dependency in `application-test` on `test-lib` (implicitly) has scope `compile`](application-test/pom.xml#L9-13).
 
 This should result in `test-lib` being included with scope `test` in `application`.
 
-Taking a more complete look at the dependency graph reveals the _actual_ issue:
+Taking a look at the complete dependency graph reveals the _actual_ issue:
 
 <!-- start_module_diagram:deps -->
 
@@ -54,7 +54,7 @@ graph LR
 
 <!-- end_module_diagram -->
 
-`application-lib` has mistakenly included `application-test` with `compile` scope, providing the route for test-lib classes to end up in our `application` artifact.
+`application-lib` has [mistakenly included `application-test` with `compile` scope](application-lib/pom.xml#L13), providing the route for `test-lib` classes to end up in our `application` artifact.
 
 # tl;dr
 
