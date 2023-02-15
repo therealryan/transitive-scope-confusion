@@ -33,7 +33,7 @@ This is a confusing result, as [the `compile`-scoped transitive dependencies of 
 
 Further, if we investigate the `application` and `application-test` poms we find no problems:
  * [the dependency in `application` on `application-test` has scope `test`](application/pom.xml#L18)
- * [the dependency in `application-test` on `test-lib` (implicitly) has scope `compile`](application-test/pom.xml#L9-13).
+ * [the dependency in `application-test` on `test-lib` (implicitly) has scope `compile`](application-test/pom.xml#L9-L13).
 
 This should result in `test-lib` being included with scope `test` in `application`.
 
